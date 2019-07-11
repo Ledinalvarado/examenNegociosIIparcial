@@ -1,15 +1,16 @@
 <?php
+
 require_once 'Cliente.php';
+require_once 'Conexion.php';
 
-if (!empty($_POST)){
-    //Cliente::llenar($_POST['nombre']);
+if (!empty($_POST)) {
     $datos = [];
-    $datos = $_POST['nombre'] ?? '';
-    $datos = $_POST['correo'] ?? '';
-    $objcliente = new Cliente();
-    $objcliente::llenar($datos);
-}
+    $datos[] = $_POST['nombre-completo'] ?? '';
+    $datos[] = $_POST['email'] ?? '';
+    $cl = new Cliente();
+    $cl::llenar($datos);
 
+}
 ?>
 
 

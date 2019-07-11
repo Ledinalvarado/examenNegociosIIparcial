@@ -1,27 +1,39 @@
 <?php
+
 require_once 'Conexion.php';
 
 class Cliente
 {
+
     public $nombre_completo;
     public $email;
 
+    public static function llenar(array $datos)
+    {
+        $objcliente = new Cliente();
+        $objcliente->setNombreCompleto($datos[0]);
+        $objcliente->setEmail($datos[1]);
+        self::guardarDatos(Conexion::getConexion() ,$datos);
+    }
 
-    public static function llenar(array $arreglo){
 
-        foreach ($arreglo as $dato){
-            echo $dato;
+    public static function guardarDatos(PDO $pdo, $datos)
+    {
+
+        try {
+            $stms = $pdo->prepare("INSERT INTO cliente(nombre_completo, email)" .
+                " VALUES(?,?)");
+            $stms->bindValue(1, $datos[0]);
+            $stms->bindValue(2, $datos[1]);
+            $stms->execute();
+            echo 'Guardado perrus';
+        } catch (PDOException $e) {
+            echo $e->getMessage();
         }
-//        echo $arreglo;
-//        print_r($arreglo);
-
     }
 
-    public static function guardar(PDO $pdo){
 
 
-
-    }
 
     /**
      * @return mixed
@@ -54,6 +66,7 @@ class Cliente
     {
         $this->email = $email;
     }
+
 
 
 }
